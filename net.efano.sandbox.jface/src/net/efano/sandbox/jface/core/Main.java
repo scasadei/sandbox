@@ -21,7 +21,7 @@ public class Main {
 			public void run() {
 
 				StringListDomainSWT viewModel = new StringListDomainSWT();
-				Shell shell = viewModel.createShell();
+				Shell shell = new StringListDomainSWT.View(viewModel).createShell();
 
 				// The SWT event loop
 				while (!shell.isDisposed()) {
