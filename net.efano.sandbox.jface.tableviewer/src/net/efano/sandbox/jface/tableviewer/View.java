@@ -1,71 +1,139 @@
 package net.efano.sandbox.jface.tableviewer;
 
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.ISharedImages;
-import org.eclipse.ui.PlatformUI;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
+
+import net.efano.sandbox.tableviewer.model.ModelProvider;
+import net.efano.sandbox.tableviewer.model.Person;
 
 public class View extends ViewPart {
 	public static final String ID = "net.efano.sandbox.jface.tableviewer.view";
 
 	private TableViewer viewer;
+	// We use icons
+	private static final Image CHECKED = Activator.getImageDescriptor(
+			"icons/checked.gif").createImage();
+	private static final Image UNCHECKED = Activator.getImageDescriptor(
+			"icons/unchecked.gif").createImage();
 
-	/**
-	 * The content provider class is responsible for providing objects to the
-	 * view. It can wrap existing objects in adapters or simply return objects
-	 * as-is. These objects may be sensitive to the current input of the view,
-	 * or ignore it and always show the same content (like Task List, for
-	 * example).
-	 */
-	class ViewContentProvider implements IStructuredContentProvider {
-		public void inputChanged(Viewer v, Object oldInput, Object newInput) {
-		}
-
-		public void dispose() {
-		}
-
-		public Object[] getElements(Object parent) {
-			if (parent instanceof Object[]) {
-				return (Object[]) parent;
-			}
-	        return new Object[0];
-		}
-	}
-
-	class ViewLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			return getText(obj);
-		}
-
-		public Image getColumnImage(Object obj, int index) {
-			return getImage(obj);
-		}
-
-		public Image getImage(Object obj) {
-			return PlatformUI.getWorkbench().getSharedImages().getImage(
-					ISharedImages.IMG_OBJ_ELEMENT);
-		}
-	}
-
-	/**
-	 * This is a callback that will allow us to create the viewer and initialize
-	 * it.
-	 */
 	public void createPartControl(Composite parent) {
+		GridLayout layout = new GridLayout(2, false);
+		parent.setLayout(layout);
+		Label searchLabel = new Label(parent, SWT.NONE);
+		searchLabel.setText("Search: ");
+		final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
+		searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
+				| GridData.HORIZONTAL_ALIGN_FILL));
+		createViewer(parent);
+	}
+
+	private void createViewer(Composite parent) {
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL
-				| SWT.V_SCROLL);
-		viewer.setContentProvider(new ViewContentProvider());
-		viewer.setLabelProvider(new ViewLabelProvider());
-		// Provide the input to the ContentProvider
-		viewer.setInput(new String[] {"One", "Two", "Three"});
+				| SWT.V_SCROLL | SWT.FULL_SELECTION | SWT.BORDER);
+		createColumns(parent, viewer);
+		final Table table = viewer.getTable();
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
+
+		viewer.setContentProvider(new ArrayContentProvider());
+		// Get the content for the viewer, setInput will call getElements in the
+		// contentProvider
+		viewer.setInput(ModelProvider.INSTANCE.getPersons());
+		// Make the selection available to other views
+		getSite().setSelectionProvider(viewer);
+		// Set the sorter for the table
+
+		// Layout the viewer
+		GridData gridData = new GridData();
+		gridData.verticalAlignment = GridData.FILL;
+		gridData.horizontalSpan = 2;
+		gridData.grabExcessHorizontalSpace = true;
+		gridData.grabExcessVerticalSpace = true;
+		gridData.horizontalAlignment = GridData.FILL;
+		viewer.getControl().setLayoutData(gridData);
+	}
+
+	public TableViewer getViewer() {
+		return viewer;
+	}
+
+	// This will create the columns for the table
+	private void createColumns(final Composite parent, final TableViewer viewer) {
+		String[] titles = { "First name", "Last name", "Gender", "Married" };
+		int[] bounds = { 100, 100, 100, 100 };
+
+		// First column is for the first name
+		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0]);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Person p = (Person) element;
+				return p.getFirstName();
+			}
+		});
+
+		// Second column is for the last name
+		col = createTableViewerColumn(titles[1], bounds[1]);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Person p = (Person) element;
+				return p.getLastName();
+			}
+		});
+
+		// Now the gender
+		col = createTableViewerColumn(titles[2], bounds[2]);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Person p = (Person) element;
+				return p.getGender();
+			}
+		});
+
+		// // Now the status married
+		col = createTableViewerColumn(titles[3], bounds[3]);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return null;
+			}
+
+			@Override
+			public Image getImage(Object element) {
+				if (((Person) element).isMarried()) {
+					return CHECKED;
+				} else {
+					return UNCHECKED;
+				}
+			}
+		});
+
+	}
+
+	private TableViewerColumn createTableViewerColumn(String title, int bound) {
+		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
+				SWT.NONE);
+		final TableColumn column = viewerColumn.getColumn();
+		column.setText(title);
+		column.setWidth(bound);
+		column.setResizable(true);
+		column.setMoveable(true);
+		return viewerColumn;
+
 	}
 
 	/**
@@ -75,3 +143,5 @@ public class View extends ViewPart {
 		viewer.getControl().setFocus();
 	}
 }
+
+

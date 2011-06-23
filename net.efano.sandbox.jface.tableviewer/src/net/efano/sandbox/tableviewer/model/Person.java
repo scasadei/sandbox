@@ -25,6 +25,7 @@ public class Person extends AbstractObservableValue {
 		this.married = married;
 	}
 
+	
 	public void addPropertyChangeListener(String propertyName,
 			PropertyChangeListener listener) {
 		propertyChangeSupport.addPropertyChangeListener(propertyName, listener);
