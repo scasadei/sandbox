@@ -1,9 +1,11 @@
 package net.efano.sandbox.jface.tableviewer;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.CellLabelProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -28,6 +30,64 @@ public class View extends ViewPart {
 	private static final Image UNCHECKED = Activator.getImageDescriptor(
 			"icons/unchecked.gif").createImage();
 
+	// This will create the columns for the table
+	private void createColumns(final Composite parent, final TableViewer viewer) {
+		String[] titles = { "First name", "Last name", "Gender", "Married" };
+		int[] bounds = { 100, 100, 100, 100 };
+
+		// First column is for the first name
+		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0], 0);
+		col.setLabelProvider(new CellLabelProvider() {
+			@Override
+			public void update(ViewerCell cell) {
+				cell.setText(((Person) cell.getElement()).getFirstName());
+				System.out.println(((Person) cell.getElement()).getFirstName());
+			}
+		});
+		col.setEditingSupport(new FirstNameEditingSupport(viewer));
+
+		// Second column is for the last name
+		col = createTableViewerColumn(titles[1], bounds[1], 1);
+		col.setLabelProvider(new CellLabelProvider() {
+			@Override
+			public void update(ViewerCell cell) {
+				cell.setText(((Person) cell.getElement()).getLastName());
+			}
+		});
+		//col.setEditingSupport(new LastNameEditingSupport(viewer));
+
+		// Now the gender
+		col = createTableViewerColumn(titles[2], bounds[2], 2);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				Person p = (Person) element;
+				return p.getGender();
+			}
+		});
+		//col.setEditingSupport(new GenderEditingSupport(viewer));
+
+		// // Now the status married
+		col = createTableViewerColumn(titles[3], bounds[3], 3);
+		col.setLabelProvider(new ColumnLabelProvider() {
+			@Override
+			public String getText(Object element) {
+				return null;
+			}
+
+			@Override
+			public Image getImage(Object element) {
+				if (((Person) element).isMarried()) {
+					return CHECKED;
+				} else {
+					return UNCHECKED;
+				}
+			}
+		});
+		//col.setEditingSupport(new MarriedEditingSupport(viewer));
+
+	}
+	
 	public void createPartControl(Composite parent) {
 		GridLayout layout = new GridLayout(2, false);
 		parent.setLayout(layout);
@@ -70,12 +130,12 @@ public class View extends ViewPart {
 	}
 
 	// This will create the columns for the table
-	private void createColumns(final Composite parent, final TableViewer viewer) {
+	private void createColumns2(final Composite parent, final TableViewer viewer) {
 		String[] titles = { "First name", "Last name", "Gender", "Married" };
 		int[] bounds = { 100, 100, 100, 100 };
 
 		// First column is for the first name
-		TableViewerColumn col = createTableViewerColumn(titles[0], bounds[0]);
+		TableViewerColumn col = createTableViewerColumn2(titles[0], bounds[0]);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -85,7 +145,7 @@ public class View extends ViewPart {
 		});
 
 		// Second column is for the last name
-		col = createTableViewerColumn(titles[1], bounds[1]);
+		col = createTableViewerColumn2(titles[1], bounds[1]);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -95,7 +155,7 @@ public class View extends ViewPart {
 		});
 
 		// Now the gender
-		col = createTableViewerColumn(titles[2], bounds[2]);
+		col = createTableViewerColumn2(titles[2], bounds[2]);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -105,7 +165,7 @@ public class View extends ViewPart {
 		});
 
 		// // Now the status married
-		col = createTableViewerColumn(titles[3], bounds[3]);
+		col = createTableViewerColumn2(titles[3], bounds[3]);
 		col.setLabelProvider(new ColumnLabelProvider() {
 			@Override
 			public String getText(Object element) {
@@ -124,7 +184,19 @@ public class View extends ViewPart {
 
 	}
 
-	private TableViewerColumn createTableViewerColumn(String title, int bound) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound, int i) {
+		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
+				SWT.NONE);
+		final TableColumn column = viewerColumn.getColumn();
+		column.setText(title);
+		column.setWidth(bound);
+		column.setResizable(true);
+		column.setMoveable(true);
+		return viewerColumn;
+
+	}
+
+	private TableViewerColumn createTableViewerColumn2(String title, int bound) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
