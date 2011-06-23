@@ -1,5 +1,6 @@
 package net.efano.sandbox.jface.core;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -15,23 +16,40 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 
-public class StringListDomainSWT {
+public class StringListDomainSWT implements Framed,Symbolic {
 
-	private StringListDomain content;
+	private LinkedList<StringSWT> down;
+	private Frame up;
+	
+	// private StringListDomain content;
 	
 	public StringListDomainSWT() {
-		content = new StringListDomain();
-		content.add("Pinco Pallino");
-		content.add("stronzetto stronzini");
+		down = new LinkedList<StringSWT>();
+		add("Pinco Pallino");
+		add("stronzetto stronzini");
 	}
 	
+	@Override
+	public List<StringSWT> symbolic() {
+		return down;
+	}
+
+	@Override
+	public Frame context() {
+		return up;
+	}
+
 	public Frame getUp() {
-		return content.getUp();
+		return up;
 	}
 	
 	
 	public List<StringSWT> getDown() {
-		return content.getDown();
+		return down;
+	}
+
+	public boolean add(String elem) {
+		return down.add(new StringSWT(elem));
 	}
 	
 	public Shell createShell() {

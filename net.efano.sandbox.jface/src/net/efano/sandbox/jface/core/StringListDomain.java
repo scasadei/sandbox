@@ -8,10 +8,10 @@ import java.util.Vector;
 public class StringListDomain implements Framed,Symbolic{
 
 	private Frame up;
-	private LinkedList<StringSWT> down;
+	private LinkedList<String> down;
 	
 	public StringListDomain() {
-		down = new LinkedList<StringSWT>();
+		down = new LinkedList<String>();
 	}
 	
 	@Override
@@ -29,14 +29,14 @@ public class StringListDomain implements Framed,Symbolic{
 	}
 	
 	
-	public List<StringSWT> getDown() {
+	public List<String> getDown() {
 		return down;
 	}
 	
 	
 	
 	public boolean add(String elem) {
-		return down.add(new StringSWT(elem));
+		return down.add(elem);
 	}
 	
 }

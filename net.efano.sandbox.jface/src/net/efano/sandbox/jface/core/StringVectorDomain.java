@@ -3,7 +3,7 @@ package net.efano.sandbox.jface.core;
 import java.util.Collection;
 import java.util.Vector;
 
-public class StringVectorDomain implements CollectionDomain<String>,Framed,Symbolic,Collection<String> {
+public class StringVectorDomain implements Framed,Symbolic {
 
 	private Frame context;
 	private Vector<String> data;

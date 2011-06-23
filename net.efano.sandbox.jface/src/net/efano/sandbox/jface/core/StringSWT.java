@@ -20,6 +20,8 @@ public class StringSWT extends AbstractObservableValue {
 	StringSWT(String aString) {
 		content = aString;
 	}
+	
+	// Minimal JavaBeans support
 
 	private PropertyChangeSupport changeSupport = new PropertyChangeSupport(
 			this);
