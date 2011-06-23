@@ -7,6 +7,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,6 +32,8 @@ public class View extends ViewPart {
 	private static final Image UNCHECKED = Activator.getImageDescriptor(
 			"icons/unchecked.gif").createImage();
 
+	private MyViewerComparator comparator;	
+	
 	// This will create the columns for the table
 	private void createColumns(final Composite parent, final TableViewer viewer) {
 		String[] titles = { "First name", "Last name", "Gender", "Married" };
@@ -95,8 +99,16 @@ public class View extends ViewPart {
 		searchLabel.setText("Search: ");
 		final Text searchText = new Text(parent, SWT.BORDER | SWT.SEARCH);
 		searchText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_FILL));
+				| GridData.HORIZONTAL_ALIGN_FILL));/*
+		searchText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent ke) {
+				filter.setSearchText(searchText.getText());
+				viewer.refresh();
+			}*/
+
 		createViewer(parent);
+		comparator = new MyViewerComparator();
+		viewer.setComparator(comparator);
 	}
 
 	private void createViewer(Composite parent) {
@@ -184,7 +196,7 @@ public class View extends ViewPart {
 
 	}
 
-	private TableViewerColumn createTableViewerColumn(String title, int bound, int i) {
+	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
 		final TableColumn column = viewerColumn.getColumn();
@@ -192,8 +204,30 @@ public class View extends ViewPart {
 		column.setWidth(bound);
 		column.setResizable(true);
 		column.setMoveable(true);
+		column.addSelectionListener(getSelectionAdapter(column, colNumber));
 		return viewerColumn;
 
+	}
+
+	private SelectionAdapter getSelectionAdapter(final TableColumn column,
+			final int index) {
+		SelectionAdapter selectionAdapter = new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				comparator.setColumn(index);
+				int dir = viewer.getTable().getSortDirection();
+				if (viewer.getTable().getSortColumn() == column) {
+					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+				} else {
+
+					dir = SWT.DOWN;
+				}
+				viewer.getTable().setSortDirection(dir);
+				viewer.getTable().setSortColumn(column);
+				viewer.refresh();
+			}
+		};
+		return selectionAdapter;
 	}
 
 	private TableViewerColumn createTableViewerColumn2(String title, int bound) {
