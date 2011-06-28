@@ -3,6 +3,7 @@ package net.efano.sandbox.jface.core;
 import java.util.Vector;
 
 
+
 public class DomDomMatrix implements valuesByIntInt {
 
 	private DomainByInt rowDomain;
