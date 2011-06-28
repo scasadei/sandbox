@@ -16,10 +16,11 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 
 
-public class StringVectorDomainSWT implements Framed,Symbolic,elementsByInt {
+public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,elementsByInt,DomainByInt  {
 
 	private Vector<StringSWT> down;
 	private Frame up;
+	DomDomMatrix attributeTable;
 
 	
 	// The GUI view
@@ -58,12 +59,20 @@ public class StringVectorDomainSWT implements Framed,Symbolic,elementsByInt {
 		
 	}
 	
+
+	public DomDomMatrix getAttributeTable() {
+		return attributeTable;
+	}
+	public void addRootAttributeTable() {
+		attributeTable = new DomDomMatrix(this,rootAttributes);
+	}
 	public StringVectorDomainSWT() {
 		down = new Vector<StringSWT>();
-		add("Pinco Pallino");
-		add("stronzetto stronzini");
 	}
-	
+
+	public void init() {
+		rootAttributes = new StringVectorDomainSWT();
+	}
 	@Override
 	public Vector<StringSWT> symbolic() {
 		return down;
