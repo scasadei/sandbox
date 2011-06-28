@@ -140,62 +140,8 @@ public class View extends ViewPart {
 	public TableViewer getViewer() {
 		return viewer;
 	}
-
-	// This will create the columns for the table
-	private void createColumns2(final Composite parent, final TableViewer viewer) {
-		String[] titles = { "First name", "Last name", "Gender", "Married" };
-		int[] bounds = { 100, 100, 100, 100 };
-
-		// First column is for the first name
-		TableViewerColumn col = createTableViewerColumn2(titles[0], bounds[0]);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				Person p = (Person) element;
-				return p.getFirstName();
-			}
-		});
-
-		// Second column is for the last name
-		col = createTableViewerColumn2(titles[1], bounds[1]);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				Person p = (Person) element;
-				return p.getLastName();
-			}
-		});
-
-		// Now the gender
-		col = createTableViewerColumn2(titles[2], bounds[2]);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				Person p = (Person) element;
-				return p.getGender();
-			}
-		});
-
-		// // Now the status married
-		col = createTableViewerColumn2(titles[3], bounds[3]);
-		col.setLabelProvider(new ColumnLabelProvider() {
-			@Override
-			public String getText(Object element) {
-				return null;
-			}
-
-			@Override
-			public Image getImage(Object element) {
-				if (((Person) element).isMarried()) {
-					return CHECKED;
-				} else {
-					return UNCHECKED;
-				}
-			}
-		});
-
-	}
-
+ 
+	
 	private TableViewerColumn createTableViewerColumn(String title, int bound, final int colNumber) {
 		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
 				SWT.NONE);
@@ -230,17 +176,7 @@ public class View extends ViewPart {
 		return selectionAdapter;
 	}
 
-	private TableViewerColumn createTableViewerColumn2(String title, int bound) {
-		final TableViewerColumn viewerColumn = new TableViewerColumn(viewer,
-				SWT.NONE);
-		final TableColumn column = viewerColumn.getColumn();
-		column.setText(title);
-		column.setWidth(bound);
-		column.setResizable(true);
-		column.setMoveable(true);
-		return viewerColumn;
-
-	}
+	
 
 	/**
 	 * Passing the focus request to the viewer's control.
