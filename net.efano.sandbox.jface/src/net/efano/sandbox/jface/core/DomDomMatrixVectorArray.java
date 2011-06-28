@@ -3,29 +3,23 @@ package net.efano.sandbox.jface.core;
 import java.util.Vector;
 
 
+
 public class DomDomMatrixVectorArray implements valuesByIntInt {
 
 	private DomainByInt rowDomain;
 	private DomainByInt colDomain;
-	Object [][] data;
-	public int numCols() {
-		return colDomain.numel();
-	}
-	public int numRows() {
-		return rowDomain.numel();
-	}
+	Vector<Object []> data;
+	private int numCols;
 	
-	public DomDomMatrixVectorArray(DomainByInt aRowDomain,
-			DomainByInt aColDomain)
+	public DomDomMatrixVectorArray(int numCols)
 	{
-		rowDomain = aRowDomain;
-		colDomain = aColDomain;
-		data = new Object [numRows()][numCols()];
+		this.numCols = numCols;
+		data = new Vector<Object []>();
 	}
 	
 	@Override
 	public Object getValue(int row, int col) {
-		return data[row][col];
+		return data.elementAt(row)[col];
 	}
 	
 	public Object[] getTriple(int row,int col)
@@ -37,8 +31,9 @@ public class DomDomMatrixVectorArray implements valuesByIntInt {
 		return out;
 	}
 
-	public void setValue(int row,int col,Object val)
+	public void add(Object [] row)
 	{
-		data[row][col] = val;
+		assert(row.length==numCols);
+		data.add(row);
 	}
 }
