@@ -116,5 +116,11 @@ public class StringVectorDomainSWT implements Framed,Symbolic,elementsByInt {
 	public Object getElement(int id) {
 		return down.get(id);
 	}
+
+
+	@Override
+	public int numel() {
+		return down.size();
+	}
 	
 }
