@@ -20,7 +20,6 @@ public class Main {
 			@Override
 			public void run() {
 
-				// StringListDomainSWT viewModel = new StringListDomainSWT();
 				StringVectorDomainSWT viewModel = new StringVectorDomainSWT();
 				viewModel.init();
 				viewModel.add("Pinco Pallino");
