@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import org.eclipse.core.databinding.observable.value.AbstractObservableValue;
 
-public class Person {
+public class Person extends AbstractObservableValue {
 	private String firstName;
 	private String lastName;
 	private boolean married;

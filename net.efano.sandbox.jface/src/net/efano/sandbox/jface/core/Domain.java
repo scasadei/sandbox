@@ -1,11 +1,9 @@
 package net.efano.sandbox.jface.core;
 
-
 public class Domain  implements Framed,Symbolic {
 
 	Frame context;
 	Symbolic generator;
-	StringVectorDomainSWT rootAttributes;
 	
 	public Domain (Frame aFrame, Symbolic aSymbolic) {
 		context = aFrame;
@@ -13,11 +11,9 @@ public class Domain  implements Framed,Symbolic {
 	}
 	
 	Domain() {
+		
 	}
 	
-	public void addRootAttribute(String elem) {
-		rootAttributes.add(elem);
-	}
 	public Frame context() {
 		return context;
 	}
