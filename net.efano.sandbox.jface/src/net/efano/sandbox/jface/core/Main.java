@@ -25,9 +25,6 @@ public class Main {
 				viewModel.init();
 				viewModel.add("Pinco Pallino");
 				viewModel.add("stronzetto stronzini");
-				viewModel.addRootAttribute("Given Name");
-				viewModel.addRootAttributeTable();
-				viewModel.getAttributeTable().setValue(1,1,"Pinco");
 				Shell shell = new StringVectorDomainSWT.View(viewModel).createShell();
 
 				// The SWT event loop

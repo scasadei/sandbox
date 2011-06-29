@@ -20,7 +20,6 @@ public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,ele
 
 	private Vector<StringSWT> down;
 	private Frame up;
-	DomDomMatrix attributeTable;
 
 	
 	// The GUI view
@@ -60,12 +59,6 @@ public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,ele
 	}
 	
 
-	public DomDomMatrix getAttributeTable() {
-		return attributeTable;
-	}
-	public void addRootAttributeTable() {
-		attributeTable = new DomDomMatrix(this,rootAttributes);
-	}
 	public StringVectorDomainSWT() {
 		down = new Vector<StringSWT>();
 	}
