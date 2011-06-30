@@ -1,3 +1,4 @@
+// testing line
 package net.efano.sandbox.jface.core;
 
 import org.eclipse.core.databinding.observable.Realm;
