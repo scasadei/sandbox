@@ -1,3 +1,4 @@
+// testing 30.06.20 18h26
 package net.efano.sandbox.jface.tableviewer;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
