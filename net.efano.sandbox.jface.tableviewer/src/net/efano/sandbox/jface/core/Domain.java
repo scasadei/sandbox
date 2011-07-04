@@ -5,7 +5,7 @@ public class Domain  implements Framed,Symbolic {
 
 	Frame context;
 	Symbolic generator;
-	StringVectorDomainSWT rootAttributes;
+	StringVectorDomain rootAttributes;
 	
 	public Domain (Frame aFrame, Symbolic aSymbolic) {
 		context = aFrame;
