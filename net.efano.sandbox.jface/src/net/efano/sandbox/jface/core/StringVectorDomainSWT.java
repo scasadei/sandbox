@@ -5,6 +5,7 @@ import java.util.List;
 
 
 import org.eclipse.core.databinding.beans.BeanProperties;
+import org.eclipse.core.databinding.beans.IBeanValueProperty;
 import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.jface.databinding.viewers.ViewerSupport;
 import org.eclipse.jface.viewers.TableViewer;
@@ -66,9 +67,13 @@ public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,ele
 		// Set up data binding.
 		TableViewer peopleViewer = new TableViewer(committers);
 		
-		ViewerSupport.bind(peopleViewer, new WritableList(this
-				.getDown(), StringSWT.class), BeanProperties.value(
-				StringSWT.class, "content"));
+		WritableList observableVector = new WritableList(this
+				.getDown(), StringSWT.class);
+		
+		IBeanValueProperty contentProperty = BeanProperties.value(
+				StringSWT.class, "content");
+		
+		ViewerSupport.bind(peopleViewer, observableVector, contentProperty);
 
 		column.pack();
 
