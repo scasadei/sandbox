@@ -25,7 +25,9 @@ public class Main {
 				viewModel.init();
 				viewModel.add("Pinco Pallino");
 				viewModel.add("stronzetto stronzini");
-				Shell shell = new StringVectorDomainSWT.View(viewModel).createShell();
+				// Shell shell = new StringVectorDomainSWT.View(viewModel).createShell();
+				Shell shell = viewModel.createShell();
+				
 
 				// The SWT event loop
 				while (!shell.isDisposed()) {

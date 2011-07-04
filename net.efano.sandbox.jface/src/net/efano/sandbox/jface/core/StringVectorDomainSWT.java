@@ -20,45 +20,9 @@ public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,ele
 
 	private Vector<StringSWT> down;
 	private Frame up;
+	private Table committers;
 
 	
-	// The GUI view
-	static class View {
-		private StringVectorDomainSWT viewModel;
-		private Table committers;
-
-		public View(StringVectorDomainSWT viewModel) {
-			this.viewModel = viewModel;
-		}
-
-		public Shell createShell() {
-			
-			// Build a UI
-			Display display = Display.getDefault();
-			Shell shell = new Shell(display);
-			shell.setLayout(new FillLayout());
-			committers = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
-			committers.setLinesVisible(true);
-			TableColumn column = new TableColumn(committers, SWT.NONE);
-
-			// Set up data binding.
-			TableViewer peopleViewer = new TableViewer(committers);
-			
-			ViewerSupport.bind(peopleViewer, new WritableList(viewModel
-					.getDown(), StringSWT.class), BeanProperties.value(
-					StringSWT.class, "content"));
-
-			column.pack();
-
-			// Open and return the Shell
-			shell.setSize(100, 300);
-			shell.open();
-			return shell;
-		}
-		
-	}
-	
-
 	public StringVectorDomainSWT() {
 		down = new Vector<StringSWT>();
 	}
@@ -95,7 +59,7 @@ public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,ele
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		Table committers = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
+		committers = new Table(shell, SWT.BORDER | SWT.FULL_SELECTION);
 		committers.setLinesVisible(true);
 		TableColumn column = new TableColumn(committers, SWT.NONE);
 
