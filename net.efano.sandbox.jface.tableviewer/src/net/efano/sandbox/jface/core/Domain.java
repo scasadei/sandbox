@@ -3,9 +3,9 @@ package net.efano.sandbox.jface.core;
 
 public class Domain  implements Framed,Symbolic {
 
-	Frame context;
-	Symbolic generator;
-	StringVectorDomain rootAttributes;
+	protected Frame context;
+	protected Symbolic generator;
+	protected StringVectorDomain rootAttributes;
 	
 	public Domain (Frame aFrame, Symbolic aSymbolic) {
 		context = aFrame;
