@@ -1,5 +1,7 @@
 package net.efano.sandbox.core;
 
+import net.efano.sandbox.core.session.SessionFrame;
+
 public class RootDomain extends Domain {
 
 	RootDomain(SessionFrame aSession, Symbolic aSymbolic) {

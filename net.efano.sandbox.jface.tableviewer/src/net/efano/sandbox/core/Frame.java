@@ -11,7 +11,7 @@ public class Frame {
 	Symbolic generator;
 	Vector<Frame> subframes;
 	
-	Frame(Frame aContext, Symbolic aGenerator) {
+	public Frame(Frame aContext, Symbolic aGenerator) {
 		context = aContext;
 		generator = aGenerator;
 	}

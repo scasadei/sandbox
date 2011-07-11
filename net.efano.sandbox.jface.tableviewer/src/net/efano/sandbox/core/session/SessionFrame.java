@@ -1,6 +1,8 @@
-package net.efano.sandbox.core;
+package net.efano.sandbox.core.session;
 
 import java.util.Date;
+
+import net.efano.sandbox.core.Frame;
 
 public class SessionFrame extends Frame {
 
