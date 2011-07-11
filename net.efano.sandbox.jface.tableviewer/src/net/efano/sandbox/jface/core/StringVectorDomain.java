@@ -8,21 +8,21 @@ import java.util.List;
 
 public class StringVectorDomain extends Domain implements Framed,Symbolic,elementsByInt,DomainByInt  {
 
-	private Vector<StringSWT> down;
+	private Vector<String> down;
 	private Frame up;
 
 	
 
 
 	public StringVectorDomain() {
-		down = new Vector<StringSWT>();
+		down = new Vector<String>();
 	}
 
 	public void init() {
 		rootAttributes = new StringVectorDomain();
 	}
 	@Override
-	public Vector<StringSWT> symbolic() {
+	public Vector<String> symbolic() {
 		return down;
 	}
 
@@ -36,12 +36,12 @@ public class StringVectorDomain extends Domain implements Framed,Symbolic,elemen
 	}
 	
 	
-	public List<StringSWT> getDown() {
+	public List<String> getDown() {
 		return down;
 	}
 
 	public boolean add(String elem) {
-		return down.add(new StringSWT(elem));
+		return down.add(new String(elem));
 	}
 	
 
