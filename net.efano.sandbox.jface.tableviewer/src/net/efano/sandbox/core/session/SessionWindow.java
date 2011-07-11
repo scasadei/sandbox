@@ -1,4 +1,4 @@
-package net.efano.sandbox.core;
+package net.efano.sandbox.core.session;
 
 import java.awt.EventQueue;
 
