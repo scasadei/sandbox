@@ -1,6 +1,8 @@
 // testing line
 package net.efano.sandbox.core;
 
+import net.efano.sandbox.core.jface.StringVectorDomainSWT;
+
 import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.jface.databinding.swt.SWTObservables;
 import org.eclipse.swt.widgets.Display;

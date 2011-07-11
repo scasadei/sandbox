@@ -1,5 +1,7 @@
 package net.efano.sandbox.core;
 
+import net.efano.sandbox.core.jface.StringVectorDomainSWT;
+
 
 public class Domain  implements Framed,Symbolic {
 
@@ -12,7 +14,11 @@ public class Domain  implements Framed,Symbolic {
 		generator = aSymbolic;
 	}
 	
-	Domain() {
+	public void init() {
+		rootAttributes = new StringVectorDomainSWT();
+	}
+
+	public Domain() {
 	}
 	
 	public void addRootAttribute(String elem) {

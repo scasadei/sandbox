@@ -1,8 +1,15 @@
-package net.efano.sandbox.core;
+package net.efano.sandbox.core.jface;
 
 import java.util.Vector;
 import java.util.List;
 
+
+import net.efano.sandbox.core.Domain;
+import net.efano.sandbox.core.DomainByInt;
+import net.efano.sandbox.core.Frame;
+import net.efano.sandbox.core.Framed;
+import net.efano.sandbox.core.Symbolic;
+import net.efano.sandbox.core.elementsByInt;
 
 import org.eclipse.core.databinding.beans.BeanProperties;
 import org.eclipse.core.databinding.beans.IBeanValueProperty;
@@ -28,9 +35,7 @@ public class StringVectorDomainSWT extends Domain implements Framed,Symbolic,ele
 		down = new Vector<StringSWT>();
 	}
 
-	public void init() {
-		rootAttributes = new StringVectorDomainSWT();
-	}
+	
 	@Override
 	public Vector<StringSWT> symbolic() {
 		return down;

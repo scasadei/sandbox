@@ -1,4 +1,4 @@
-package net.efano.sandbox.core;
+package net.efano.sandbox.core.jface;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
