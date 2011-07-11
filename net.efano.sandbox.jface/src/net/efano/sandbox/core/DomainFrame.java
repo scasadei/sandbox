@@ -1,4 +1,4 @@
-package net.efano.sandbox.jface.core;
+package net.efano.sandbox.core;
 
 public class DomainFrame extends Frame {
 
