@@ -1,4 +1,4 @@
-package net.efano.sandbox.jface.core;
+package net.efano.sandbox.core;
 
 import java.util.Vector;
 import java.util.List;
