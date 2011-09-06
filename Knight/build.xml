@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!-- ====================================================================== 
+     Knight    
+     The Knight application from Spring in Action
+                   
+     Craig Walls                                             
+     Ryan Breidenbach              
+     ====================================================================== -->
+<project name="Knight" default="run">
+  
+  <description>
+    The Knight application from Spring in Action
+  </description>
+  
+  <property name="target.dir" location="target"/>
+  <property name="src.dir" location="src"/>
+  <property name="java.src.dir" location="${src.dir}"/>
+  <property name="test.src.dir" location="test"/>
+  <property name="lib.dir" location="lib"/>
+  <property name="classes.dir" location="${target.dir}/classes"/>
+  <property name="test.classes.dir" location="${target.dir}/tests"/>
+  <property name="config.dir" location="config"/>
+  
+  <property file="build.properties"/>
+
+  <path id="runtime.classpath">
+    <pathelement location="${classes.dir}"/>
+    <fileset dir="${spring.home}/lib">
+      <include name="log4j/*.jar" />
+      <include name="jakarta-commons/commons-logging.jar" />
+      <include name="aopalliance/aopalliance.jar"/>
+    </fileset>
+    <fileset dir="${spring.home}/dist">
+      <include name="spring.jar"/>
+    </fileset>
+    <fileset dir="${lib.dir}">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+  
+  <!-- - - - - - - - - - - - - - - - - - 
+        target: compile                      
+       - - - - - - - - - - - - - - - - - -->
+  <target name="compile">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${java.src.dir}" destdir="${classes.dir}">
+      <classpath refid="runtime.classpath"/>
+    </javac>
+    
+    <copy file="knight.xml" tofile="${target.dir}/knight.xml"/>
+  </target>
+  
+  <target name="config">
+    <copy file="knight.xml" todir="${target.dir}"/>
+    <copy file="${config.dir}/log4j.properties" todir="${classes.dir}"/>
+  </target>
+  
+  <target name="run" depends="compile,config">
+    <java classname="com.springinaction.chapter01.knight.KnightApp">
+      <classpath refid="runtime.classpath"/>
+    </java>
+  </target>
+    
+  <!-- - - - - - - - - - - - - - - - - - 
+        target: clean                      
+       - - - - - - - - - - - - - - - - - -->
+  <target name="clean">
+    <delete dir="${target.dir}"/>
+  </target>
+  
+  
+  <target name="zipItUp" depends="clean">
+    <delete file="${target.dir}/${ant.project.name}.zip"/>
+    <mkdir dir="${target.dir}"/>    
+
+    <zip destfile="${target.dir}/${ant.project.name}.zip">
+      <zipfileset dir="." prefix="${ant.project.name}">
+        <include name="**"/>
+        <exclude name=".*"/>
+        <exclude name="bin/**"/>
+        <exclude name="target/**"/>
+        <exclude name="todo.txt"/>
+        <exclude name="src/webapp/WEB-INF/freemarker/**"/>
+        <exclude name="src/webapp/WEB-INF/velocity/**"/>
+      </zipfileset>
+    </zip>
+  </target>
+</project>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  <bean id="quest"
+      class="com.springinaction.chapter01.knight.HolyGrailQuest"/>
+
+  <bean id="knightTarget"
+      class="com.springinaction.chapter01.knight.KnightOfTheRoundTable">
+    <constructor-arg>
+      <value>Bedivere</value>
+    </constructor-arg>
+    <property name="quest">
+      <ref bean="quest"/>
+    </property>
+  </bean>
+  
+  <bean id="minstrel"
+      class="com.springinaction.chapter01.knight.MinstrelAdvice"/>
+      
+  <bean id="knight"
+      class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="proxyInterfaces">
+      <list>
+        <value>com.springinaction.chapter01.knight.Knight</value>
+      </list>
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <value>minstrel</value>
+      </list>
+    </property>
+    <property name="target"><ref bean="knightTarget"/></property>
+  </bean>
+  
+</beans>
