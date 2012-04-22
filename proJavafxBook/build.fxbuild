@@ -1,0 +1,2 @@
+jfx.build.stagingdir = ${workspace}/proJavafxBook/build
+jfx.build.apptitle = proJavafxBook
